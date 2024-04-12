@@ -12,8 +12,8 @@ export default defineConfig(({ command, mode }) => {
     plugins: [
       react(),
       vitePluginImp({
-        // 按需引入nutui
         libList: [
+          // 按需引入 nutui
           {
             libName: "@nutui/nutui-react",
             style: (name) => {
@@ -21,6 +21,14 @@ export default defineConfig(({ command, mode }) => {
             },
             replaceOldImport: false,
             camel2DashComponentName: false,
+          },
+          // 按需引入 antd
+          {
+            libName: "antd",
+            style(name) {
+              // use less
+              return `antd/es/${name}/style/index.js`;
+            },
           },
         ],
       }),

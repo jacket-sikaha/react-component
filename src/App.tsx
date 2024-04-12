@@ -1,6 +1,6 @@
 import "./App.css";
 import Layout from "./components/layout";
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 // 创建一个 client
 const queryClient = new QueryClient();
@@ -9,10 +9,10 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <div className="w-[93vw] h-full">
+        <div className="w-full h-full">
           <Outlet />
         </div>
-        <div className="sticky bottom-8 z-10">
+        <div className="fixed bottom-8 z-10 left-2">
           <Layout />
         </div>
       </QueryClientProvider>

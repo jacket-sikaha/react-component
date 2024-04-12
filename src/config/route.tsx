@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "react";
 import App from "../App.tsx";
 import Home from "../pages/home/index";
+import TDTMap from "../pages/TDTMap/index.tsx";
 // import Theme from "../pages/theme/index";
 // import FilterList from "../pages/filterList/index.tsx";
 
@@ -36,6 +37,15 @@ export const DefaultRoutes = [
           <Suspense fallback={<h1>loading</h1>}>
             {/* 这里的Suspense就是只对Theme起作用 */}
             <Theme />
+          </Suspense>
+        ),
+      },
+      {
+        path: "map",
+        name: "地图定位+搜索位置",
+        element: (
+          <Suspense fallback={<h1>loading</h1>}>
+            <TDTMap />
           </Suspense>
         ),
       },

@@ -18,7 +18,7 @@ const Test = lazy(() =>
 );
 
 const themes = ["light", "dark", "cupcake", "retro", "valentine"];
-function Theme() {
+function ThemePage() {
   const [theme, setTheme] = useState("light");
 
   return (
@@ -147,7 +147,7 @@ function Theme() {
   );
 }
 
-export default Theme;
+export default ThemePage;
 
 // 添加一个固定的延迟时间，以便你可以看到加载状态
 function delayForDemo(promise: Promise<{ default: () => JSX.Element }>) {
