@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   Area,
   LineData,
@@ -80,7 +80,7 @@ export const useTDTMap = () => {
       //清空地图及搜索列表
       map.clearOverLays();
       setRefreshHasMore(false);
-      refreshList.map(({ marker }) => {
+      refreshList.forEach(({ marker }) => {
         marker.removeEventListener("click", () => void 0);
       });
     }
@@ -132,7 +132,7 @@ export const useTDTMap = () => {
       if (pageIndex === 1) {
         //清空上一次的地图标注
         map.clearOverLays();
-        refreshList.map(({ marker }) => {
+        refreshList.forEach(({ marker }) => {
           marker.removeEventListener("click", () => void 0);
         });
         const { zoomArr, list } = parseList(obj);
@@ -174,7 +174,7 @@ export const useTDTMap = () => {
   };
   const destroy = () => {
     map?.clearOverLays();
-    refreshList.map(({ marker }) => {
+    refreshList.forEach(({ marker }) => {
       marker.removeEventListener("click", () => void 0);
     });
     setRefreshHasMore(true);
