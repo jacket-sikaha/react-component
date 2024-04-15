@@ -12,8 +12,16 @@
 
 // api url: http://lbs.tianditu.gov.cn/api/js4.0/class.html
 declare namespace T {
+  // import {
+  //   TDTGeolocation,
+  //   LngLat,
+  //   Marker,
+  //   Polyline,
+  //   TDTMap,
+  //   InfoWindow,
+  //   Geocoder,
+  // } from "./TDT";
   // import { LocalSearch } from "./LocalSearch";
-  // import { TDTGeolocation, LngLat, Marker, Polyline, TDTMap } from "./lib";
 
   export const Map: new (
     container: string | HTMLElement,
@@ -21,6 +29,8 @@ declare namespace T {
   ) => TDTMap;
 
   export const Geolocation: new () => TDTGeolocation;
+
+  export const Geocoder: new () => Geocoder;
 
   export const LngLat: new (lng: number, lat: number) => LngLat;
 

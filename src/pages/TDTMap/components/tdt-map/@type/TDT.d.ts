@@ -10,6 +10,10 @@ export declare class TDTMap {
   panTo(lnglat: LngLat);
 
   clearOverLays(): void;
+
+  enableDrag(): void; // 启用地图拖拽，默认启用。
+
+  addEventListener(event: string, handler: (e: any) => void);
 }
 
 export declare class TDTGeolocation {
@@ -21,6 +25,8 @@ export declare class TDTGeolocation {
 }
 
 export declare class LngLat {
+  lng: number;
+  lat: number;
   constructor(lng: number, lat: number);
 }
 
@@ -41,15 +47,37 @@ export declare class InfoWindow {
   constructor(container: string | HTMLElement, opt?: InfoWindowOptions);
 }
 
-export type LngLat = {
-  lng: number;
-  lat: number;
-};
+export class Geocoder {
+  constructor();
+  getLocation(point: LngLat, callback: (result: GeocoderResult) => void); // 对指定的坐标点进行反地址解析。如果解析成功，则回调函数的参数为GeocoderResult对象。
+  getPoint(loction: string, callback: (result: GeocoderResult) => void); //	对指定的坐标点进行地址解析。如果解析成功，则回调函数的参数为GeocoderResult对象。
+}
 
 export type GeolocationResult = {
   lnglat: LngLat;
   accuracyNumber: number;
   level?: number;
+};
+
+export type GeocoderResult = {
+  getStatus(): number; //	对指定的坐标点进行反地址解析。如果解析成功，则回调函数的参数为LocationOptions对象，否则回调函数的参数为null。
+  getMsg(): string; //	返回响应信息。
+  getLocationPoint(): LngLat; //	获取此点坐标。
+  getAddress(): string; //	获取详细地址。
+  getAddressComponent(): AddressComponent; //	获取此点的详细信息。
+  getLocationLevel(): string; //	获取此点类别。
+};
+
+type AddressComponent = {
+  address: string; //此点最近地点信息
+  address_distance: number; //此点距离最近地点信息距离
+  address_position: string; //此点在最近地点信息方向
+  city: string; //此点所在国家或城市或区县
+  poi: string; //距离此点最近poi点
+  poi_distance: number; //距离此点最近poi点的距离
+  poi_position: string; //此点在最近poi点的方向
+  road: string; //距离此点最近的路
+  road_distance: number; //此点距离此路的距离
 };
 
 type MapOptions = {

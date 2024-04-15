@@ -5,6 +5,7 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    // "allowUmdGlobalAccess": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -19,6 +20,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
+
+    // "typeRoots": ["/src/pages/TDTMap/components/tdt-map/@type"]
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

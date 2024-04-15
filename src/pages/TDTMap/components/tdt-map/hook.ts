@@ -15,7 +15,9 @@ import {
   GeolocationResult,
   TDTMap,
   LngLat,
+  GeocoderResult,
 } from "./@type/TDT";
+import { message } from "antd";
 
 let map: TDTMap;
 let localSearch: LocalSearch;
@@ -37,36 +39,47 @@ export const useTDTMap = () => {
     }
     //初始化地图对象
     map = new T.Map("mapDiv");
-    const m = map;
-
     //设置显示地图的中心点和级别
-    m?.centerAndZoom(new T.LngLat(116.40969, 39.89945), 12);
+    map.centerAndZoom(new T.LngLat(116.40969, 39.89945), 12);
 
     const config = {
       pageCapacity: 10, //每页显示的数量
       onSearchComplete: localSearchResult, //接收数据的回调函数
     };
     //创建搜索对象
-    localSearch = new T.LocalSearch(m, config);
+    localSearch = new T.LocalSearch(map, config);
+
+    //创建地址解析对象
+    const geocode = new T.Geocoder();
+    map.addEventListener("click", function (e) {
+      // 使用逆地理编码接口获得详细信息，用鼠标点击地图获得详细信息
+      geocode.getLocation(e.lnglat, clickToGetAddressCallback(e.lnglat));
+    });
+
+    //创建定位对象
     const lo = new T.Geolocation();
-    const fn = function (this: TDTGeolocation, e: GeolocationResult | null) {
+    const getCurrentPositionCallback = function (
+      this: TDTGeolocation,
+      e: GeolocationResult | null
+    ) {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const tmp = this;
       if (!tmp || !e) {
         return;
       }
       if (tmp.getStatus() === 0) {
-        m?.centerAndZoom(e.lnglat, 15);
+        map.centerAndZoom(e.lnglat, 15);
         const marker = new T.Marker(e.lnglat);
-        m?.addOverLay(marker);
+        map.addOverLay(marker);
       }
       if (tmp.getStatus() === 1) {
-        m?.centerAndZoom(e.lnglat, e?.level ?? 16);
+        map.centerAndZoom(e.lnglat, e?.level ?? 16);
         const marker = new T.Marker(e.lnglat);
-        m?.addOverLay(marker);
+        map.addOverLay(marker);
       }
     };
-    lo.getCurrentPosition(fn);
+    lo.getCurrentPosition(getCurrentPositionCallback);
+
     // //创建比例尺控件对象
     // const scale = new T.Control.Scale();
     // //添加比例尺控件
@@ -156,6 +169,7 @@ export const useTDTMap = () => {
       setRefreshList([...refreshList]);
     }
   }
+
   const onSearch = () => {
     if (loading) {
       return;
@@ -172,6 +186,7 @@ export const useTDTMap = () => {
     localSearch?.nextPage();
     setLoading(true);
   };
+
   const destroy = () => {
     map?.clearOverLays();
     refreshList.forEach(({ marker }) => {
@@ -182,6 +197,34 @@ export const useTDTMap = () => {
     form.resetFields();
     otherList.current = [];
     setTypeList(0);
+  };
+
+  const clickToGetAddressCallback = ({ lng, lat }: LngLat) => {
+    return (result: GeocoderResult) => {
+      if (result.getStatus() == 0) {
+        console.log("详细信息如下：", result.getAddressComponent(), lng, lat);
+        //清空地图及搜索列表
+        map?.clearOverLays();
+        setRefreshHasMore(false);
+        setTypeList(1);
+        refreshList.forEach(({ marker }) => {
+          marker.removeEventListener("click", () => void 0);
+        });
+        const { list } = parseList([
+          {
+            address: result.getAddress(),
+            name: "",
+            lonlat: [lng, lat].join(","),
+            phone: "",
+            poiType: "",
+          },
+        ]);
+        setRefreshList([...list]);
+      } else {
+        message.info("服务器返回状态：" + result.getStatus());
+        message.info("服务器返回响应信息：" + result.getMsg());
+      }
+    };
   };
 
   return {

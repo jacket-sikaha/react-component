@@ -6,9 +6,6 @@ import ListItem from "../list-item";
 import { useEffect } from "react";
 import { useTDTMap } from "./hook";
 
-// let map: TDTMap;
-// let localSearch: LocalSearch;
-
 type TDTMapProps = {
   visible: boolean;
   onClose: () => void;
@@ -36,12 +33,12 @@ function TDTMapComp({ visible, onClose, onChange }: TDTMapProps) {
     };
   }, [visible]);
 
+  if (!visible) {
+    return null;
+  }
+
   return (
-    <div
-      className={`w-full h-full z-[999] absolute top-0 left-0 right-0 p-2 ${
-        visible ? "visible" : "invisible"
-      }`}
-    >
+    <div className="bg-slate-600 w-full h-full z-[999] absolute top-0 left-0 right-0 p-2">
       <div className="flex justify-end">
         <span onClick={onClose}>
           <CloseOutlined />
