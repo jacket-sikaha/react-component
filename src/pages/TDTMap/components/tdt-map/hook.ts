@@ -18,19 +18,21 @@ import {
   GeocoderResult,
 } from "./@type/TDT";
 import { message } from "antd";
+import { LocationProps } from ".";
 
 let map: TDTMap;
 let localSearch: LocalSearch;
 
 type PoisType = Pois & { marker: Marker; winHtml: string };
 
-export const useTDTMap = () => {
+export const useTDTMap = (value?: LocationProps) => {
   const [refreshList, setRefreshList] = useState<PoisType[]>([]);
   const [refreshHasMore, setRefreshHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [typeList, setTypeList] = useState(0);
   const otherList = useRef<unknown[]>([]);
   const [form] = useForm();
+  const { longitude = 116.40969, latitude = 39.89945 } = value ?? {};
 
   function onLoad() {
     const node = document.querySelector("#mapDiv");
@@ -40,7 +42,8 @@ export const useTDTMap = () => {
     //初始化地图对象
     map = new T.Map("mapDiv");
     //设置显示地图的中心点和级别
-    map.centerAndZoom(new T.LngLat(116.40969, 39.89945), 12);
+    const center = new T.LngLat(longitude, latitude);
+    map.centerAndZoom(center, 12);
 
     const config = {
       pageCapacity: 10, //每页显示的数量
@@ -57,29 +60,32 @@ export const useTDTMap = () => {
     });
 
     //创建定位对象
-    const lo = new T.Geolocation();
-    const getCurrentPositionCallback = function (
-      this: TDTGeolocation,
-      e: GeolocationResult | null
-    ) {
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const tmp = this;
-      if (!tmp || !e) {
-        return;
-      }
-      if (tmp.getStatus() === 0) {
-        map.centerAndZoom(e.lnglat, 15);
-        const marker = new T.Marker(e.lnglat);
-        map.addOverLay(marker);
-      }
-      if (tmp.getStatus() === 1) {
-        map.centerAndZoom(e.lnglat, e?.level ?? 16);
-        const marker = new T.Marker(e.lnglat);
-        map.addOverLay(marker);
-      }
-    };
-    lo.getCurrentPosition(getCurrentPositionCallback);
-
+    if (!value) {
+      const lo = new T.Geolocation();
+      const getCurrentPositionCallback = function (
+        this: TDTGeolocation,
+        e: GeolocationResult | null
+      ) {
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        const tmp = this;
+        if (!tmp || !e) {
+          return;
+        }
+        if (tmp.getStatus() === 0) {
+          map.centerAndZoom(e.lnglat, 15);
+          const marker = new T.Marker(e.lnglat);
+          map.addOverLay(marker);
+        }
+        if (tmp.getStatus() === 1) {
+          map.centerAndZoom(e.lnglat, e?.level ?? 16);
+          const marker = new T.Marker(e.lnglat);
+          map.addOverLay(marker);
+        }
+      };
+      lo.getCurrentPosition(getCurrentPositionCallback);
+    } else {
+      geocode.getLocation(center, clickToGetAddressCallback(center));
+    }
     // //创建比例尺控件对象
     // const scale = new T.Control.Scale();
     // //添加比例尺控件

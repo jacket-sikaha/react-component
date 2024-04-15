@@ -6,13 +6,21 @@ import ListItem from "../list-item";
 import { useEffect } from "react";
 import { useTDTMap } from "./hook";
 
+export type LocationProps = {
+  longitude: number;
+  latitude: number;
+  address: string;
+};
+
 type TDTMapProps = {
-  visible: boolean;
-  onClose: () => void;
+  value?: LocationProps;
+  // 这两个都不传props，默认该组件一直显示
+  visible?: boolean;
+  onClose?: () => void;
   onChange?: (val: unknown) => void;
 };
 
-function TDTMapComp({ visible, onClose, onChange }: TDTMapProps) {
+function TDTMapComp({ value, visible = true, onClose, onChange }: TDTMapProps) {
   const {
     refreshList,
     refreshHasMore,
@@ -23,7 +31,7 @@ function TDTMapComp({ visible, onClose, onChange }: TDTMapProps) {
     onSearch,
     onLoadMore,
     destroy,
-  } = useTDTMap();
+  } = useTDTMap(value);
 
   // useEffect回调：首次渲染不会进行清理，会在下一次更新渲染，清除上一次的副作用；
   useEffect(() => {
