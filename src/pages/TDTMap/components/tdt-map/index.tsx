@@ -34,7 +34,7 @@ function TDTMapComp({ visible, onClose, onChange }: TDTMapProps) {
   }, [visible]);
 
   if (!visible) {
-    return null;
+    return <Form className="hidden" form={form} />;
   }
 
   return (
