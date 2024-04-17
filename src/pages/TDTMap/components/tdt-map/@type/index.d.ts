@@ -23,31 +23,27 @@ declare namespace T {
   // } from "./TDT";
   // import { LocalSearch } from "./LocalSearch";
 
-  export const Map: new (
-    container: string | HTMLElement,
-    opt?: MapOptions
-  ) => TDTMap;
+  const Map: typeof import("./TDT").TDTMap;
 
-  export const Geolocation: new () => TDTGeolocation;
+  const Geolocation: typeof import("./TDT").TDTGeolocation;
 
-  export const Geocoder: new () => Geocoder;
+  const Geocoder: typeof import("./TDT").Geocoder;
 
-  export const LngLat: new (lng: number, lat: number) => LngLat;
+  const LngLat: typeof import("./TDT").LngLat;
 
-  export const Marker: new (lnglat: LngLat) => Marker;
+  const Marker: typeof import("./TDT").Marker;
 
-  export const Polyline: new (
-    points: Array<LngLat>,
-    opt?: PolylineOptions
-  ) => Polyline;
+  const Polyline: typeof import("./TDT").Polyline;
 
-  export const LocalSearch: new (
+  const LocalSearch: new (
     map: TDTMap,
     opt?: LocalSearchOptions
-  ) => LocalSearch;
+  ) => import("./LocalSearch").LocalSearch;
 
-  export const InfoWindow: new (
+  const InfoWindow: new (
     container: string | HTMLElement,
     opt?: InfoWindowOptions
-  ) => InfoWindow;
+  ) => import("./TDT").InfoWindow;
+
+  const Control: typeof import("./TDT").Control;
 }

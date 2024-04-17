@@ -68,6 +68,7 @@ type Suggests = {
   address: string; //地址
   name: string; //名称
   gbCode: string; //国标码
+  lonlat?: string;
 };
 
 type Prompt = (

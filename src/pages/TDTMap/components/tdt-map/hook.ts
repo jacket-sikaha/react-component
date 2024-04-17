@@ -16,12 +16,15 @@ import {
   TDTMap,
   LngLat,
   GeocoderResult,
+  Control,
 } from "./@type/TDT";
 import { message } from "antd";
 import { LocationProps } from ".";
+import { ControlPosition } from "./@type/enum";
 
 let map: TDTMap;
 let localSearch: LocalSearch;
+let customControl: Control;
 
 type PoisType = Pois & { marker: Marker; winHtml: string };
 
@@ -59,22 +62,6 @@ export const useTDTMap = (value?: LocationProps) => {
       geocode.getLocation(e.lnglat, clickToGetAddressCallback(e.lnglat));
     });
 
-    if (!!longitude && !!latitude && !!address) {
-      // 组件传的props参数都有效时,就按传入参数进行渲染，否则就按定位显示
-      setTypeList(1);
-      setRefreshHasMore(false);
-      const { list } = parseList([
-        {
-          address,
-          name: "",
-          lonlat: [longitude, latitude].join(","),
-          phone: "",
-          poiType: "",
-        },
-      ]);
-      setRefreshList([...list]);
-      return;
-    }
     //创建定位对象
     const lo = new T.Geolocation();
     const getCurrentPositionCallback = function (
@@ -97,7 +84,50 @@ export const useTDTMap = (value?: LocationProps) => {
         map.addOverLay(marker);
       }
     };
-    lo.getCurrentPosition(getCurrentPositionCallback);
+
+    if (!!longitude && !!latitude && !!address) {
+      // 组件传的props参数都有效时,就按传入参数进行渲染，否则就按定位显示
+      setTypeList(1);
+      setRefreshHasMore(false);
+      const { list } = parseList([
+        {
+          address,
+          name: "",
+          lonlat: [longitude, latitude].join(","),
+          phone: "",
+          poiType: "",
+        },
+      ]);
+      setRefreshList([...list]);
+    } else {
+      lo.getCurrentPosition(getCurrentPositionCallback);
+    }
+
+    customControl = new T.Control({
+      position: ControlPosition.T_ANCHOR_BOTTOM_LEFT,
+    });
+    customControl.onAdd = function () {
+      const container = document.createElement("div");
+      const zicsstext =
+        "font-size:15px;border:solid 2px blue;background:#fff;padding:2px;line-height:15px;cursor:pointer;";
+      this.buttonControl = createButton(
+        "定位",
+        "定位",
+        "a",
+        container,
+        zicsstext
+      );
+      this.buttonControl.onclick = (e) => {
+        e.stopPropagation();
+        lo.getCurrentPosition(getCurrentPositionCallback);
+      };
+      return container;
+    };
+    customControl.onRemove = function () {
+      // 移除控件时要释放，map调用removeControl方法时才会执行
+      delete this.buttonControl;
+    };
+    map.addControl(customControl);
 
     // //创建比例尺控件对象
     // const scale = new T.Control.Scale();
@@ -208,6 +238,7 @@ export const useTDTMap = (value?: LocationProps) => {
 
   const destroy = () => {
     map?.clearOverLays();
+    map?.removeControl(customControl);
     refreshList.forEach(({ marker }) => {
       marker.removeEventListener("click", () => void 0);
     });
@@ -349,3 +380,20 @@ const parseList = (obj: Pois[]) => {
   }
   return { zoomArr, list };
 };
+
+function createButton(
+  html: string,
+  title: string,
+  className: string,
+  container: HTMLDivElement,
+  csstext: string
+) {
+  const link = document.createElement("a");
+  if (container) {
+    container.appendChild(link);
+  }
+  link.innerHTML = html;
+  link.title = title;
+  link.style.cssText = csstext;
+  return link;
+}

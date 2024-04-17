@@ -1,4 +1,5 @@
-export declare class TDTMap {
+import * as ControlPositionEnum from "./enum";
+export class TDTMap {
   constructor(container: string | HTMLElement, opt?: MapOptions);
 
   centerAndZoom(lnglat: LngLat, zoom: number);
@@ -14,9 +15,12 @@ export declare class TDTMap {
   enableDrag(): void; // 启用地图拖拽，默认启用。
 
   addEventListener(event: string, handler: (e: any) => void);
+
+  addControl(control: Control); //	将控件添加到地图，一个控件实例只能向地图中添加一次。
+  removeControl(control: Control); //	从地图中移除控件。
 }
 
-export declare class TDTGeolocation {
+export class TDTGeolocation {
   getCurrentPosition: (
     callback: (res: GeolocationResult | null) => void,
     options?: TDTGeolocation
@@ -24,13 +28,13 @@ export declare class TDTGeolocation {
   getStatus: () => number;
 }
 
-export declare class LngLat {
+export class LngLat {
   lng: number;
   lat: number;
   constructor(lng: number, lat: number);
 }
 
-export declare class Marker {
+export class Marker {
   constructor(lnglat: LngLat);
 
   openInfoWindow(infowin: InfoWindow);
@@ -39,11 +43,11 @@ export declare class Marker {
   removeEventListener(event: string, handler: () => void);
 }
 
-export declare class Polyline {
+export class Polyline {
   constructor(points: Array<LngLat>, opt?: PolylineOptions);
 }
 
-export declare class InfoWindow {
+export class InfoWindow {
   constructor(container: string | HTMLElement, opt?: InfoWindowOptions);
 }
 
@@ -51,6 +55,14 @@ export class Geocoder {
   constructor();
   getLocation(point: LngLat, callback: (result: GeocoderResult) => void); // 对指定的坐标点进行反地址解析。如果解析成功，则回调函数的参数为GeocoderResult对象。
   getPoint(loction: string, callback: (result: GeocoderResult) => void); //	对指定的坐标点进行地址解析。如果解析成功，则回调函数的参数为GeocoderResult对象。
+}
+
+export class Control {
+  buttonControl?: HTMLAnchorElement;
+  constructor({ position }: { position: ControlPositionEnum.ControlPosition });
+  // 向地图上添加叠加物。当调用map.addControl时，API将调用此方法。自定义控件时需要实现此方法。自定义控件时需要将控件对应的HTML元素返回。
+  onAdd: (map: Map) => HTMLElement;
+  onRemove: () => void;
 }
 
 export type GeolocationResult = {
