@@ -18,9 +18,16 @@ type TDTMapProps = {
   visible?: boolean;
   onClose?: () => void;
   onChange?: (val: unknown) => void;
+  closeIcon?: boolean;
 };
 
-function TDTMapComp({ value, visible = true, onClose, onChange }: TDTMapProps) {
+function TDTMapComp({
+  value,
+  visible = true,
+  closeIcon = true,
+  onClose,
+  onChange,
+}: TDTMapProps) {
   const {
     refreshList,
     refreshHasMore,
@@ -47,11 +54,13 @@ function TDTMapComp({ value, visible = true, onClose, onChange }: TDTMapProps) {
 
   return (
     <div className="bg-slate-600 w-full h-full z-[999] absolute top-0 left-0 right-0 p-2">
-      <div className="flex justify-end">
-        <span onClick={onClose}>
-          <CloseOutlined />
-        </span>
-      </div>
+      {closeIcon && (
+        <div className="flex justify-end">
+          <span onClick={onClose}>
+            <CloseOutlined />
+          </span>
+        </div>
+      )}
       <div id="mapDiv" className="border h-1/2 mb-2" />
       <Form form={form} className="flex items-center">
         <Form.Item name="keyword" className="my-auto">
@@ -86,7 +95,7 @@ function TDTMapComp({ value, visible = true, onClose, onChange }: TDTMapProps) {
                   // });
                   // marker.openInfoWindow(markerInfoWin);
                   onChange?.(item);
-                  onClose();
+                  onClose?.();
                 }}
                 name={name}
                 address={address}

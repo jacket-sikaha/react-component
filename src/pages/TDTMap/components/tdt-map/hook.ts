@@ -32,7 +32,7 @@ export const useTDTMap = (value?: LocationProps) => {
   const [typeList, setTypeList] = useState(0);
   const otherList = useRef<unknown[]>([]);
   const [form] = useForm();
-  const { longitude = 116.40969, latitude = 39.89945 } = value ?? {};
+  const { longitude, latitude, address } = value ?? {};
 
   function onLoad() {
     const node = document.querySelector("#mapDiv");
@@ -42,7 +42,7 @@ export const useTDTMap = (value?: LocationProps) => {
     //初始化地图对象
     map = new T.Map("mapDiv");
     //设置显示地图的中心点和级别
-    const center = new T.LngLat(longitude, latitude);
+    const center = new T.LngLat(longitude ?? 116.40969, latitude ?? 39.89945);
     map.centerAndZoom(center, 12);
 
     const config = {
@@ -59,33 +59,46 @@ export const useTDTMap = (value?: LocationProps) => {
       geocode.getLocation(e.lnglat, clickToGetAddressCallback(e.lnglat));
     });
 
-    //创建定位对象
-    if (!value) {
-      const lo = new T.Geolocation();
-      const getCurrentPositionCallback = function (
-        this: TDTGeolocation,
-        e: GeolocationResult | null
-      ) {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
-        const tmp = this;
-        if (!tmp || !e) {
-          return;
-        }
-        if (tmp.getStatus() === 0) {
-          map.centerAndZoom(e.lnglat, 15);
-          const marker = new T.Marker(e.lnglat);
-          map.addOverLay(marker);
-        }
-        if (tmp.getStatus() === 1) {
-          map.centerAndZoom(e.lnglat, e?.level ?? 16);
-          const marker = new T.Marker(e.lnglat);
-          map.addOverLay(marker);
-        }
-      };
-      lo.getCurrentPosition(getCurrentPositionCallback);
-    } else {
-      geocode.getLocation(center, clickToGetAddressCallback(center));
+    if (!!longitude && !!latitude && !!address) {
+      // 组件传的props参数都有效时,就按传入参数进行渲染，否则就按定位显示
+      setTypeList(1);
+      setRefreshHasMore(false);
+      const { list } = parseList([
+        {
+          address,
+          name: "",
+          lonlat: [longitude, latitude].join(","),
+          phone: "",
+          poiType: "",
+        },
+      ]);
+      setRefreshList([...list]);
+      return;
     }
+    //创建定位对象
+    const lo = new T.Geolocation();
+    const getCurrentPositionCallback = function (
+      this: TDTGeolocation,
+      e: GeolocationResult | null
+    ) {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const tmp = this;
+      if (!tmp || !e) {
+        return;
+      }
+      if (tmp.getStatus() === 0) {
+        map.centerAndZoom(e.lnglat, 15);
+        const marker = new T.Marker(e.lnglat);
+        map.addOverLay(marker);
+      }
+      if (tmp.getStatus() === 1) {
+        map.centerAndZoom(e.lnglat, e?.level ?? 16);
+        const marker = new T.Marker(e.lnglat);
+        map.addOverLay(marker);
+      }
+    };
+    lo.getCurrentPosition(getCurrentPositionCallback);
+
     // //创建比例尺控件对象
     // const scale = new T.Control.Scale();
     // //添加比例尺控件

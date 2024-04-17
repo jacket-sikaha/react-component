@@ -13,11 +13,11 @@ function TDTMapPage() {
         }}
       />
       <TDTMapComp
-        // value={{
-        //   address: "灯湖东路20号保利MALL首层1S106",
-        //   latitude: 23,
-        //   longitude: 113,
-        // }}
+        value={{
+          address: "灯湖东路20号保利MALL首层",
+          latitude: 23,
+          longitude: 113,
+        }}
         visible={showBasic}
         onClose={() => {
           setShowBasic(false);
