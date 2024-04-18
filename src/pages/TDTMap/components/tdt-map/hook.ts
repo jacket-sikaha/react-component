@@ -103,31 +103,32 @@ export const useTDTMap = (value?: LocationProps) => {
       lo.getCurrentPosition(getCurrentPositionCallback);
     }
 
-    customControl = new T.Control({
-      position: ControlPosition.T_ANCHOR_BOTTOM_LEFT,
-    });
-    customControl.onAdd = function () {
-      const container = document.createElement("div");
-      const zicsstext =
-        "font-size:15px;border:solid 2px blue;background:#fff;padding:2px;line-height:15px;cursor:pointer;";
-      this.buttonControl = createButton(
-        "定位",
-        "定位",
-        "a",
-        container,
-        zicsstext
-      );
-      this.buttonControl.onclick = (e) => {
-        e.stopPropagation();
-        lo.getCurrentPosition(getCurrentPositionCallback);
-      };
-      return container;
-    };
-    customControl.onRemove = function () {
-      // 移除控件时要释放，map调用removeControl方法时才会执行
-      delete this.buttonControl;
-    };
-    map.addControl(customControl);
+    // 官方自定义控件参考写法
+    // customControl = new T.Control({
+    //   position: ControlPosition.T_ANCHOR_BOTTOM_LEFT,
+    // });
+    // customControl.onAdd = function () {
+    //   const container = document.createElement("div");
+    //   const zicsstext =
+    //     "font-size:15px;border:solid 2px blue;background:#fff;padding:2px;line-height:15px;cursor:pointer;";
+    //   this.buttonControl = createButton(
+    //     "定位",
+    //     "定位",
+    //     "a",
+    //     container,
+    //     zicsstext
+    //   );
+    //   this.buttonControl.onclick = (e: { stopPropagation: () => void }) => {
+    //     e.stopPropagation();
+    //     lo.getCurrentPosition(getCurrentPositionCallback);
+    //   };
+    //   return container;
+    // };
+    // customControl.onRemove = function () {
+    //   // 移除控件时要释放，map调用removeControl方法时才会执行
+    //   delete this.buttonControl;
+    // };
+    // map.addControl(customControl);
 
     // //创建比例尺控件对象
     // const scale = new T.Control.Scale();
@@ -237,8 +238,9 @@ export const useTDTMap = (value?: LocationProps) => {
   };
 
   const destroy = () => {
+    // 第一次程序初始化，因为默认不显示，map不会执行load函数所以执行destroy函数时map可能为空
     map?.clearOverLays();
-    map?.removeControl(customControl);
+    // map?.removeControl(customControl);
     refreshList.forEach(({ marker }) => {
       marker.removeEventListener("click", () => void 0);
     });
@@ -283,6 +285,7 @@ export const useTDTMap = (value?: LocationProps) => {
     typeList,
     otherList,
     form,
+    map,
     onLoad,
     onSearch,
     onLoadMore,

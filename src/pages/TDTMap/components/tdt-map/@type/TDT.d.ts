@@ -15,6 +15,7 @@ export class TDTMap {
   enableDrag(): void; // 启用地图拖拽，默认启用。
 
   addEventListener(event: string, handler: (e: any) => void);
+  removeEventListener(event: string, handler: (e: any) => void);
 
   addControl(control: Control); //	将控件添加到地图，一个控件实例只能向地图中添加一次。
   removeControl(control: Control); //	从地图中移除控件。
@@ -58,10 +59,10 @@ export class Geocoder {
 }
 
 export class Control {
-  buttonControl?: HTMLAnchorElement;
+  buttonControl?: HTMLElement | HTMLDivElement;
   constructor({ position }: { position: ControlPositionEnum.ControlPosition });
   // 向地图上添加叠加物。当调用map.addControl时，API将调用此方法。自定义控件时需要实现此方法。自定义控件时需要将控件对应的HTML元素返回。
-  onAdd: (map: Map) => HTMLElement;
+  onAdd: (map: Map) => HTMLElement | HTMLDivElement;
   onRemove: () => void;
 }
 

@@ -5,6 +5,7 @@ import { CloseOutlined } from "@mui/icons-material";
 import ListItem from "../list-item";
 import { useEffect } from "react";
 import { useTDTMap } from "./hook";
+import CustomPositioningControl from "./CustomPositioningControl";
 
 export type LocationProps = {
   longitude: number;
@@ -34,6 +35,7 @@ function TDTMapComp({
     typeList,
     otherList,
     form,
+    map,
     onLoad,
     onSearch,
     onLoadMore,
@@ -104,6 +106,7 @@ function TDTMapComp({
           })
         )}
       </InfiniteLoading>
+      <CustomPositioningControl map={map} />
     </div>
   );
 }
