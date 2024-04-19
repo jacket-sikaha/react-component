@@ -13,7 +13,7 @@ const ListItem = (props: ListItemType) => {
     >
       <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
       <div className="space-y-1">
-        <p className="font-medium leading-none">{name}</p>
+        {name && <p className="font-medium leading-none">{name}</p>}
         <p className="text-sm text-muted-foreground">{address}</p>
       </div>
     </div>

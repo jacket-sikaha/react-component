@@ -1,7 +1,7 @@
 import LocationSearchingOutlinedIcon from "@mui/icons-material/LocationSearchingOutlined";
 import { useEffect, useRef, useState } from "react";
-import { GeolocationResult, TDTGeolocation, TDTMap } from "./@type/TDT";
-import { ControlPosition } from "./@type/enum";
+import { GeolocationResult, TDTGeolocation, TDTMap } from "../../@type/TDT";
+import { ControlPosition } from "../../@type/enum";
 
 const customControl = new T.Control({
   position: ControlPosition.T_ANCHOR_BOTTOM_LEFT,

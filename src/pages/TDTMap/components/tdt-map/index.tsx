@@ -5,7 +5,8 @@ import { CloseOutlined } from "@mui/icons-material";
 import ListItem from "../list-item";
 import { useEffect } from "react";
 import { useTDTMap } from "./hook";
-import CustomPositioningControl from "./CustomPositioningControl";
+import CustomPositioningControl from "./component/CustomPositioningControl";
+import WithPromptInput from "./component/Select";
 
 export type LocationProps = {
   longitude: number;
@@ -40,6 +41,7 @@ function TDTMapComp({
     onSearch,
     onLoadMore,
     destroy,
+    handleSelectct,
   } = useTDTMap(value);
 
   // useEffect回调：首次渲染不会进行清理，会在下一次更新渲染，清除上一次的副作用；
@@ -57,16 +59,15 @@ function TDTMapComp({
   return (
     <div className="bg-slate-600 w-full h-full z-[999] absolute top-0 left-0 right-0 p-2">
       {closeIcon && (
-        <div className="flex justify-end">
+        <div className="flex my-1">
           <span onClick={onClose}>
             <CloseOutlined />
           </span>
         </div>
       )}
-      <div id="mapDiv" className="border h-1/2 mb-2" />
-      <Form form={form} className="flex items-center">
-        <Form.Item name="keyword" className="my-auto">
-          <Input placeholder="input address" allowClear />
+      <Form form={form} className="flex items-center mb-2">
+        <Form.Item name="keyword" className="my-auto w-[75%]">
+          <WithPromptInput map={map} updateListAfterChange={handleSelectct} />
         </Form.Item>
         <Button
           style={{ width: 80, marginLeft: 20 }}
@@ -76,6 +77,7 @@ function TDTMapComp({
           搜索
         </Button>
       </Form>
+      <div id="mapDiv" className="border h-1/2 mb-2" />
       <InfiniteLoading
         pullingText={<Loading>松开刷新</Loading>}
         loadingText={<Loading>加载中</Loading>}

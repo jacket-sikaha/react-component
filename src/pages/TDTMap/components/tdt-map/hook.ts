@@ -34,7 +34,7 @@ export const useTDTMap = (value?: LocationProps) => {
   const [loading, setLoading] = useState(false);
   const [typeList, setTypeList] = useState(0);
   const otherList = useRef<unknown[]>([]);
-  const [form] = useForm();
+  const [form] = useForm<{ keyword: LocationProps }>();
   const { longitude, latitude, address } = value ?? {};
 
   function onLoad() {
@@ -224,8 +224,8 @@ export const useTDTMap = (value?: LocationProps) => {
     if (loading) {
       return;
     }
-    const val = form.getFieldValue("keyword");
-    val && localSearch.search(val);
+    const { address }: LocationProps = form.getFieldValue("keyword");
+    localSearch.search(address);
     setLoading(true);
   };
 
@@ -251,7 +251,10 @@ export const useTDTMap = (value?: LocationProps) => {
     setTypeList(0);
   };
 
-  const clickToGetAddressCallback = ({ lng, lat }: LngLat) => {
+  const clickToGetAddressCallback = (
+    { lng, lat }: LngLat,
+    initString?: string
+  ) => {
     return (result: GeocoderResult) => {
       if (result.getStatus() == 0) {
         console.log("详细信息如下：", result.getAddressComponent(), lng, lat);
@@ -264,7 +267,7 @@ export const useTDTMap = (value?: LocationProps) => {
         });
         const { list } = parseList([
           {
-            address: result.getAddress(),
+            address: initString ?? result.getAddress(),
             name: "",
             lonlat: [lng, lat].join(","),
             phone: "",
@@ -279,6 +282,12 @@ export const useTDTMap = (value?: LocationProps) => {
     };
   };
 
+  const handleSelectct = ({ address, longitude, latitude }: LocationProps) => {
+    const tmp = new T.LngLat(longitude, latitude);
+    new T.Geocoder().getLocation(tmp, clickToGetAddressCallback(tmp, address));
+    map.centerAndZoom(tmp, 14);
+  };
+
   return {
     refreshList,
     refreshHasMore,
@@ -290,6 +299,7 @@ export const useTDTMap = (value?: LocationProps) => {
     onSearch,
     onLoadMore,
     destroy,
+    handleSelectct,
   };
 };
 
