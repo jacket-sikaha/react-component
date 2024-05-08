@@ -74,7 +74,7 @@ function TDTMapComp({ value, visible = true, closeIcon = true, onClose, onChange
       <InfiniteLoading
         pullingText={'松开刷新'}
         loadingText={'加载中'}
-        target="map-scroll"
+        // target="map-scroll"
         hasMore={refreshHasMore}
         onLoadMore={onLoadMore}
       >
