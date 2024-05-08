@@ -6,18 +6,18 @@ import Layout from './components/layout';
 const queryClient = new QueryClient();
 
 function App() {
-    return (
-        <>
-            <QueryClientProvider client={queryClient}>
-                <div className="h-full w-full">
-                    <Outlet />
-                </div>
-                <div className="fixed bottom-8 left-2 z-10">
-                    <Layout />
-                </div>
-            </QueryClientProvider>
-        </>
-    );
+  return (
+    <>
+      <QueryClientProvider client={queryClient}>
+        <div className="h-full w-full">
+          <Outlet />
+        </div>
+        <div className="fixed bottom-8 left-2 z-10">
+          <Layout />
+        </div>
+      </QueryClientProvider>
+    </>
+  );
 }
 
 export default App;
