@@ -2,6 +2,7 @@ import { Suspense, lazy } from 'react';
 import App from '../App.tsx';
 import TDTMap from '../pages/TDTMap/index.tsx';
 import Home from '../pages/home/index';
+import ScrollList from '../pages/scrollList/index.tsx';
 // import Theme from "../pages/theme/index";
 // import FilterList from "../pages/filterList/index.tsx";
 
@@ -46,6 +47,15 @@ export const DefaultRoutes = [
         element: (
           <Suspense fallback={<h1>loading</h1>}>
             <TDTMap />
+          </Suspense>
+        )
+      },
+      {
+        path: 'slist',
+        name: '向上滚动加载的list',
+        element: (
+          <Suspense fallback={<h1>loading</h1>}>
+            <ScrollList />
           </Suspense>
         )
       }
