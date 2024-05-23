@@ -24,10 +24,11 @@ function RollingLoad() {
       .reverse()
   );
 
-  const scroll = debounce(async () => {
+  const scroll = debounce(async (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+    e.stopPropagation();
     if (!div.current || loading) return;
     const { scrollTop, clientHeight, scrollHeight } = div.current;
-    console.log(111, { scrollTop, clientHeight, scrollHeight, r: scrollTop / scrollHeight });
+    // console.log(111, { scrollTop, clientHeight, scrollHeight, r: scrollTop / scrollHeight });
     if (scrollTop / scrollHeight <= 0.16) {
       setLoading(true);
       const item = await addItem(list);
@@ -47,7 +48,7 @@ function RollingLoad() {
   return (
     <div className="m-4 h-96 w-[200px] overflow-y-auto bg-blue-400" ref={div} onScroll={scroll}>
       {loading && <div>loading </div>}
-      {list.map((o, i) => {
+      {list.map((o) => {
         return (
           <div key={o} className="h-[50px] border">
             {o}
