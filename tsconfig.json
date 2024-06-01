@@ -20,8 +20,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
-
-    // "typeRoots": ["/src/pages/TDTMap/components/tdt-map/@type"]
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

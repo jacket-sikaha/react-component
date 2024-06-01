@@ -14,15 +14,6 @@ export default defineConfig(({ command, mode }) => {
       react(),
       vitePluginImp({
         libList: [
-          // 按需引入 nutui
-          {
-            libName: '@nutui/nutui-react',
-            style: (name) => {
-              return `@nutui/nutui-react/dist/esm/${name}/style/css`;
-            },
-            replaceOldImport: false,
-            camel2DashComponentName: false
-          },
           // 按需引入 antd
           {
             libName: 'antd',
@@ -34,14 +25,6 @@ export default defineConfig(({ command, mode }) => {
         ]
       })
     ],
-    resolve: {
-      alias: {
-        react: 'preact/compat',
-        'react-dom/test-utils': 'preact/test-utils',
-        'react-dom': 'preact/compat',
-        'react/jsx-runtime': 'preact/jsx-runtime'
-      }
-    },
     server: {
       proxy: {
         // string shorthand: http://localhost:5173/foo -> http://localhost:4567/foo
