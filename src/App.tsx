@@ -6,6 +6,7 @@ import Layout from './components/layout';
 const queryClient = new QueryClient();
 
 function App() {
+  console.warn('App ');
   return (
     <>
       <QueryClientProvider client={queryClient}>

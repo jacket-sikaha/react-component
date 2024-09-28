@@ -1,6 +1,6 @@
 import { Suspense, lazy } from 'react';
 import App from '../App.tsx';
-import TDTMap from '../pages/TDTMap/index.tsx';
+// import TDTMap from '../pages/TDTMap/index.tsx';
 import Home from '../pages/home/index';
 import ScrollList from '../pages/scrollList/index.tsx';
 // import Theme from "../pages/theme/index";
@@ -8,7 +8,7 @@ import ScrollList from '../pages/scrollList/index.tsx';
 
 // const Home = () => import("../pages/home.tsx");
 // react router6 + react lazy 延迟加载的正确写法
-const FilterList = lazy(() => import('../pages/filterList'));
+// const FilterList = lazy(() => import('../pages/filterList'));
 const Theme = lazy(() => import('../pages/theme'));
 
 export const DefaultRoutes = [
@@ -24,11 +24,7 @@ export const DefaultRoutes = [
       {
         path: 'filterList',
         name: '条件筛选+无限滚动列表',
-        element: (
-          <Suspense fallback={<h1>loading</h1>}>
-            <FilterList />
-          </Suspense>
-        )
+        element: <Suspense fallback={<h1>loading</h1>}>{/* <FilterList /> */}</Suspense>
         // lazy: () => <FilterList />,
       },
       {
@@ -44,11 +40,7 @@ export const DefaultRoutes = [
       {
         path: 'map',
         name: '地图定位+搜索位置',
-        element: (
-          <Suspense fallback={<h1>loading</h1>}>
-            <TDTMap />
-          </Suspense>
-        )
+        element: <Suspense fallback={<h1>loading</h1>}></Suspense>
       },
       {
         path: 'slist',

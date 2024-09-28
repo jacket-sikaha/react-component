@@ -1,6 +1,7 @@
 import styles from '../pages/home/test2.module.css'; // css module 导入
 
 function Loading() {
+  console.warn('Loading ');
   return (
     <div>
       <h1>

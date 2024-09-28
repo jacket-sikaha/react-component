@@ -18,6 +18,7 @@ const Test = lazy(() =>
 const themes = ['light', 'dark', 'cupcake', 'retro', 'valentine'];
 function ThemePage() {
   const [theme, setTheme] = useState('light');
+  console.warn('ThemePage ');
 
   return (
     <>

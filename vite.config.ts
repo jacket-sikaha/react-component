@@ -2,6 +2,13 @@ import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv } from 'vite';
 import vitePluginImp from 'vite-plugin-imp';
 
+const ReactCompilerConfig = {
+  // sources: (filename) => {
+  //   console.log('filename', filename);
+  //   return filename.includes('src');
+  // }
+};
+
 // const ORIGIN_SERVER = import.meta.env.VITE_ORIGIN_SERVER;
 // https://vitejs.dev/config/
 // Vite 默认是不加载 .env 文件的，因为这些文件需要在执行完 Vite 配置后才能确定加载哪一个
@@ -11,18 +18,22 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
     plugins: [
-      react(),
+      react({
+        babel: {
+          plugins: [['babel-plugin-react-compiler', ReactCompilerConfig]]
+        }
+      }),
       vitePluginImp({
         libList: [
           // 按需引入 nutui
-          {
-            libName: '@nutui/nutui-react',
-            style: (name) => {
-              return `@nutui/nutui-react/dist/esm/${name}/style/css`;
-            },
-            replaceOldImport: false,
-            camel2DashComponentName: false
-          },
+          // {
+          //   libName: '@nutui/nutui-react',
+          //   style: (name) => {
+          //     return `@nutui/nutui-react/dist/esm/${name}/style/css`;
+          //   },
+          //   replaceOldImport: false,
+          //   camel2DashComponentName: false
+          // },
           // 按需引入 antd
           {
             libName: 'antd',
@@ -35,12 +46,12 @@ export default defineConfig(({ command, mode }) => {
       })
     ],
     resolve: {
-      alias: {
-        react: 'preact/compat',
-        'react-dom/test-utils': 'preact/test-utils',
-        'react-dom': 'preact/compat',
-        'react/jsx-runtime': 'preact/jsx-runtime'
-      }
+      // alias: {
+      //   react: 'preact/compat',
+      //   'react-dom/test-utils': 'preact/test-utils',
+      //   'react-dom': 'preact/compat',
+      //   'react/jsx-runtime': 'preact/jsx-runtime'
+      // }
     },
     server: {
       proxy: {
