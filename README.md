@@ -1,5 +1,5 @@
-# vite-react-template
-基于vite搭一个react脚手架模板
+# react-component
+react组件封装收集
 
 ## 使用技术
 
