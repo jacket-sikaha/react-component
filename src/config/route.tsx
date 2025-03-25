@@ -10,6 +10,7 @@ import ScrollList from '../pages/scrollList/index.tsx';
 // react router6 + react lazy 延迟加载的正确写法
 const FilterList = lazy(() => import('../pages/filterList'));
 const Theme = lazy(() => import('../pages/theme'));
+const LineChartGroupPage = lazy(() => import('../pages/line-chart-group'));
 
 export const DefaultRoutes = [
   {
@@ -56,6 +57,15 @@ export const DefaultRoutes = [
         element: (
           <Suspense fallback={<h1>loading</h1>}>
             <ScrollList />
+          </Suspense>
+        )
+      },
+      {
+        path: 'line-chart-group',
+        name: '纵向排列的多y轴单x轴图表',
+        element: (
+          <Suspense fallback={<h1>loading</h1>}>
+            <LineChartGroupPage />
           </Suspense>
         )
       }
