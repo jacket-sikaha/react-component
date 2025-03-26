@@ -174,13 +174,7 @@ function LineChartGroup({
   }, [loading]);
 
   return (
-    <div className="m-2">
-      <div
-        id={`chart-${id}`}
-        className="flex justify-center mx-auto"
-        style={{ width, height: h }}
-      />
-    </div>
+    <div id={`chart-${id}`} className="flex justify-center mx-auto" style={{ width, height: h }} />
   );
 }
 export default LineChartGroup;

@@ -9,10 +9,12 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <div className="h-full w-full">
-          <Outlet />
+        <div className="flex flex-col">
+          <div className="flex-1">
+            <Outlet />
+          </div>
         </div>
-        <div className="fixed bottom-8 left-2 z-10">
+        <div className="fixed bottom-12 left-6 z-10">
           <Layout />
         </div>
       </QueryClientProvider>

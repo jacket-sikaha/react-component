@@ -21,14 +21,14 @@
   }
 }
 /* 作用范围是带有这个data-theme="light"属性的元素及其子元素下 */
-[data-theme="light"] {
+[data-theme='light'] {
   color-scheme: light;
   --theme-primary: #ffffff;
   --theme-text-color: black;
   transition: all 0.3s ease;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   color-scheme: dark;
   --theme-primary: #1d232a;
   --theme-text-color: #a6adbb;
@@ -36,21 +36,21 @@
   transition: all 0.3s ease;
 }
 
-[data-theme="cupcake"] {
+[data-theme='cupcake'] {
   color-scheme: light;
   --theme-primary: #faf7f5;
   --theme-text-color: #291334;
   transition: all 0.3s ease;
 }
 
-[data-theme="retro"] {
+[data-theme='retro'] {
   color-scheme: light;
   --theme-primary: #ece3ca;
   --theme-text-color: #282425;
   transition: all 0.3s ease;
 }
 
-[data-theme="valentine"] {
+[data-theme='valentine'] {
   color-scheme: light;
   --theme-primary: #fae8f4;
   --theme-text-color: #632c3b;
@@ -85,10 +85,7 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  /* place-items: center; */
   min-width: 320px;
-  min-height: 100vh;
 }
 
 h1 {

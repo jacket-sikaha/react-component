@@ -28,6 +28,7 @@ const Layout = () => {
         aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
         onClick={handleClick}
+        className="!bg-pink-500 size-full"
       >
         <MoreVertIcon />
       </IconButton>
@@ -39,17 +40,18 @@ const Layout = () => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        PaperProps={{
-          style: {
-            maxHeight: 450,
-            width: '20ch'
-          }
-        }}
+        className="flex flex-col items-center"
+        // PaperProps={{
+        //   style: {
+        //     maxHeight: 450,
+        //     width: '20ch'
+        //   }
+        // }}
       >
         {pathList.map(({ path, name }) => (
-          <MenuItem key={path} onClick={handleClose}>
-            <Link to={path}>{name}</Link>
-          </MenuItem>
+          <Link key={path} to={path}>
+            <MenuItem onClick={handleClose}>{name}</MenuItem>
+          </Link>
         ))}
       </Menu>
     </>
