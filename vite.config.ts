@@ -34,13 +34,14 @@ export default defineConfig(({ command, mode }) => {
         ]
       })
     ],
+    base: mode === 'development' ? '/' : '/react-component/',
     resolve: {
-      alias: {
-        react: 'preact/compat',
-        'react-dom/test-utils': 'preact/test-utils',
-        'react-dom': 'preact/compat',
-        'react/jsx-runtime': 'preact/jsx-runtime'
-      }
+      // alias: {
+      //   react: 'preact/compat',
+      //   'react-dom/test-utils': 'preact/test-utils',
+      //   'react-dom': 'preact/compat',
+      //   'react/jsx-runtime': 'preact/jsx-runtime'
+      // }
     },
     server: {
       proxy: {
