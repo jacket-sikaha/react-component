@@ -67,6 +67,9 @@ function LineChartGroup({
   });
   const xAxis = data.map((_, index) => {
     return {
+      axisTick: {
+        alignWithLabel: true
+      },
       show: index === data.length - 1,
       gridIndex: index,
       data: xAxisData
