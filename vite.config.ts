@@ -34,7 +34,7 @@ export default defineConfig(({ command, mode }) => {
         ]
       })
     ],
-    base: mode === 'development' ? '/' : '/react-component/',
+    // base: mode === 'development' ? '/' : '/react-component/',
     resolve: {
       // alias: {
       //   react: 'preact/compat',
