@@ -11,6 +11,7 @@ import ScrollList from '../pages/scrollList/index.tsx';
 const FilterList = lazy(() => import('../pages/filterList'));
 const Theme = lazy(() => import('../pages/theme'));
 const LineChartGroupPage = lazy(() => import('../pages/line-chart-group'));
+const PrefScrollListlist = lazy(() => import('../pages/pref-scroll-list/index.tsx'));
 
 export const DefaultRoutes = [
   {
@@ -57,6 +58,15 @@ export const DefaultRoutes = [
         element: (
           <Suspense fallback={<h1>loading</h1>}>
             <ScrollList />
+          </Suspense>
+        )
+      },
+      {
+        path: 'pref-slist',
+        name: '优化向上滚动加载的list',
+        element: (
+          <Suspense fallback={<h1>loading</h1>}>
+            <PrefScrollListlist />
           </Suspense>
         )
       },
