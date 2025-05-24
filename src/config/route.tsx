@@ -63,7 +63,7 @@ export const DefaultRoutes = [
       },
       {
         path: 'pref-slist',
-        name: '优化向上滚动加载的list',
+        name: '优化向下滚动加载的list',
         element: (
           <Suspense fallback={<h1>loading</h1>}>
             <PrefScrollListlist />

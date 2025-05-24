@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 const InfiniteScroll = ({ fetchData, parentClass = '' }) => {
-  console.log('parentClass:', parentClass);
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -38,6 +37,7 @@ const InfiniteScroll = ({ fetchData, parentClass = '' }) => {
         }
       },
       {
+        // 用作视口的元素，用于检查目标的可见性
         root: parentClass ? document.querySelector(`.${parentClass}`) : null,
         threshold: 0.7
       } // 元素相对于root可见达到 70%  时触发

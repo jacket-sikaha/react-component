@@ -7,6 +7,8 @@ function PrefScrollListlist() {
   // 当用户滚动到容器底部时
   // 容器内部的触发元素（observerTarget）出现在该元素浏览器视口内，而且threshold的阈值相对于浏览器视口可见度符合，就能触发加载
 
+  // parentClass 自行设定观察目标元素可见性的视口参照物
+
   return (
     <div className="flex flex-col h-[160vh] items-center w-full p-5 border">
       <div className="test-scroll w-full p-5 border overflow-y-auto h-96">
