@@ -228,7 +228,7 @@ export const useTDTMap = (value?: LocationProps) => {
     setLoading(true);
   };
 
-  const onLoadMore = () => {
+  const onLoadMore = async () => {
     if (loading) {
       return;
     }
