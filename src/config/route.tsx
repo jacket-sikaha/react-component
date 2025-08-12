@@ -1,17 +1,18 @@
+import App from '@/App.tsx';
+import Home from '@/pages/home/index';
 import { Suspense, lazy } from 'react';
-import App from '../App.tsx';
-import TDTMap from '../pages/TDTMap/index.tsx';
-import Home from '../pages/home/index';
-import ScrollList from '../pages/scrollList/index.tsx';
+// import ScrollList from '../pages/scrollList/index.tsx';
 // import Theme from "../pages/theme/index";
 // import FilterList from "../pages/filterList/index.tsx";
 
 // const Home = () => import("../pages/home.tsx");
 // react router6 + react lazy 延迟加载的正确写法
-const FilterList = lazy(() => import('../pages/filterList'));
-const Theme = lazy(() => import('../pages/theme'));
-const LineChartGroupPage = lazy(() => import('../pages/line-chart-group'));
-const PrefScrollListlist = lazy(() => import('../pages/pref-scroll-list/index.tsx'));
+const FilterList = lazy(() => import('@/pages/filterList'));
+const Theme = lazy(() => import('@/pages/theme'));
+const LineChartGroupPage = lazy(() => import('@/pages/line-chart-group'));
+const PrefScrollListlist = lazy(() => import('@/pages/pref-scroll-list/index.tsx'));
+const ScrollList = lazy(() => import('@/pages/scrollList/index'));
+const TDTMap = lazy(() => import('@/pages/TDTMap/index'));
 
 export const DefaultRoutes = [
   {
