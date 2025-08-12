@@ -1,6 +1,11 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv } from 'vite';
 import vitePluginImp from 'vite-plugin-imp';
+import tsconfigPaths from 'vite-tsconfig-paths';
+// import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
+import { visualizer } from 'rollup-plugin-visualizer';
+import viteCompression from 'vite-plugin-compression';
+import svgr from 'vite-plugin-svgr';
 
 // const ORIGIN_SERVER = import.meta.env.VITE_ORIGIN_SERVER;
 // https://vitejs.dev/config/
@@ -12,6 +17,8 @@ export default defineConfig(({ command, mode }) => {
   return {
     plugins: [
       react(),
+      tsconfigPaths(),
+      svgr(),
       vitePluginImp({
         libList: [
           // 按需引入 nutui
@@ -23,7 +30,6 @@ export default defineConfig(({ command, mode }) => {
             replaceOldImport: false,
             camel2DashComponentName: false
           },
-          // 按需引入 antd
           {
             libName: 'antd',
             style(name) {
@@ -32,8 +38,18 @@ export default defineConfig(({ command, mode }) => {
             }
           }
         ]
+      }),
+      viteCompression({
+        algorithm: 'gzip',
+        threshold: 10240,
+        ext: '.gz'
+      }),
+      visualizer({
+        open: process.env.NODE_ENV === 'production',
+        filename: 'bundle-analysis.html'
       })
     ],
+
     // base: mode === 'development' ? '/' : '/react-component/',
     resolve: {
       // alias: {
@@ -43,6 +59,21 @@ export default defineConfig(({ command, mode }) => {
       //   'react/jsx-runtime': 'preact/jsx-runtime'
       // }
     },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['react', 'react-dom', 'react-router-dom'],
+            mui: ['@mui/material', '@mui/icons-material'],
+            utils: ['axios', 'dayjs']
+          },
+          chunkFileNames: 'assets/js/[name]-[hash].js',
+          entryFileNames: 'assets/js/[name]-[hash].js',
+          assetFileNames: 'assets/[ext]/[name]-[hash].[ext]'
+        }
+      }
+    },
+
     server: {
       proxy: {
         // string shorthand: http://localhost:5173/foo -> http://localhost:4567/foo
