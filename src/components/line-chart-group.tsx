@@ -14,6 +14,7 @@ import * as echarts from 'echarts/core';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 import { useCallback, useEffect, useRef } from 'react';
+import { useEchartResize } from '../pages/line-chart-group/hook';
 
 export type FaultReportChartData = {
   name: string;
@@ -153,7 +154,12 @@ function LineChartGroup({
     chartRef.current = echarts.init(document.getElementById(`chart-${id}`)!, theme, { height: h });
     setData(true);
   }, []);
-
+  useEchartResize(document.getElementById(`chart-${id}`) ?? document.body, () =>
+    chartRef.current?.resize({
+      width: 'auto',
+      height: 'auto'
+    })
+  );
   useEffect(() => {
     initChart();
   }, []);

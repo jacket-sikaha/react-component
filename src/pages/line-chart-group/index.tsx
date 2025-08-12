@@ -59,7 +59,8 @@ function LineChartGroupPage() {
   ];
 
   return (
-    <div className="bg-white w-full max-w-[50rem] mx-auto h-full my-3 py-3 rounded-xl overflow-auto">
+    // <div className="bg-white w-full max-w-[50rem] mx-auto h-full my-3 py-3 rounded-xl overflow-auto">
+    <div className="bg-white w-full mx-auto h-full my-3 py-3 rounded-xl">
       <LineChartGroup
         loading={false}
         height={100}
