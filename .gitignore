@@ -26,3 +26,4 @@ dist-ssr
 package-lock.json
 pnpm-lock.yaml
 bundle-analysis.html
+src/api/**
