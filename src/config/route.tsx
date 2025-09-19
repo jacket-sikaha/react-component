@@ -13,6 +13,7 @@ const LineChartGroupPage = lazy(() => import('@/pages/line-chart-group'));
 const PrefScrollListlist = lazy(() => import('@/pages/pref-scroll-list/index.tsx'));
 const ScrollList = lazy(() => import('@/pages/scrollList/index'));
 const TDTMap = lazy(() => import('@/pages/TDTMap/index'));
+const PDF = lazy(() => import('@/pages/pdf-view/index'));
 
 export const DefaultRoutes = [
   {
@@ -77,6 +78,15 @@ export const DefaultRoutes = [
         element: (
           <Suspense fallback={<h1>loading</h1>}>
             <LineChartGroupPage />
+          </Suspense>
+        )
+      },
+      {
+        path: 'pdf',
+        name: 'PDF 预览',
+        element: (
+          <Suspense fallback={<h1>loading</h1>}>
+            <PDF />
           </Suspense>
         )
       }

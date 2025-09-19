@@ -75,6 +75,7 @@ export default defineConfig(({ command, mode }) => {
     },
 
     server: {
+      allowedHosts: true,
       proxy: {
         // string shorthand: http://localhost:5173/foo -> http://localhost:4567/foo
         '/foo': 'http://localhost:4567',
@@ -95,7 +96,8 @@ export default defineConfig(({ command, mode }) => {
           target: 'ws://localhost:5174',
           ws: true
         }
-      }
+      },
+      port: 9000
     }
   };
 });
