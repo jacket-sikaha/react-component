@@ -1,8 +1,6 @@
 import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.js';
 import { useEffect } from 'react';
-function PDFViewer({
-  url = 'https://linkjob-pub.oss-cn-shenzhen.aliyuncs.com/product-manual/100001/68b28873-8bca-4669-88b6-bdd43f01a75a.pdf'
-}) {
+function PDFViewer({ url = 'https://xxxx.com/xxxx.pdf' }) {
   pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/legacy/build/pdf.worker.min.js`;
   useEffect(() => {
     console.log('-----------------');
