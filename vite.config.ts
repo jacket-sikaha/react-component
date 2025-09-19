@@ -96,8 +96,8 @@ export default defineConfig(({ command, mode }) => {
           target: 'ws://localhost:5174',
           ws: true
         }
-      },
-      port: 9000
+      }
+      // port: 9000
     }
   };
 });
