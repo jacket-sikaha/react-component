@@ -14,6 +14,7 @@ const PrefScrollListlist = lazy(() => import('@/pages/pref-scroll-list/index.tsx
 const ScrollList = lazy(() => import('@/pages/scrollList/index'));
 const TDTMap = lazy(() => import('@/pages/TDTMap/index'));
 const PDF = lazy(() => import('@/pages/pdf-view/index'));
+const PieSlider = lazy(() => import('@/pages/slider/index'));
 
 export const DefaultRoutes = [
   {
@@ -87,6 +88,15 @@ export const DefaultRoutes = [
         element: (
           <Suspense fallback={<h1>loading</h1>}>
             <PDF />
+          </Suspense>
+        )
+      },
+      {
+        path: 'pie-slider',
+        name: '扇形滑动选择器+圆形滚动条',
+        element: (
+          <Suspense fallback={<h1>loading</h1>}>
+            <PieSlider />
           </Suspense>
         )
       }
