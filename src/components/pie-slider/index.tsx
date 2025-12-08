@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 function PieSlider({ value = 0, onChange = (val: number) => {} }) {
-  const _mode = ['mode1', 'mode2', 'mode3', 'mode4', 'mode5', 'mode6'].map((str, index) => {
+  const _mode = ['mode-1', 'mode-2', 'mode-3', 'mode-4', 'mode-5', 'mode-6'].map((str, index) => {
     return { label: str, value: index };
   });
   const getY = (x: number) =>
@@ -49,10 +49,77 @@ function PieSlider({ value = 0, onChange = (val: number) => {} }) {
     renderPie();
   }, [renderPie, value]);
 
+  const handleMoveStart = (
+    e: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    flagRef.current = true;
+    if (e.type === 'touchstart') {
+      const eTemp = e as React.TouchEvent<HTMLDivElement>;
+      startPos.current = position.map((item) => {
+        return {
+          dx: eTemp?.touches?.[0].clientX - item.dx,
+          dy: eTemp?.touches?.[0].clientY - item.dy
+        };
+      });
+      startX.current = eTemp?.touches?.[0].clientX;
+    } else {
+      const eTemp = e as React.MouseEvent<HTMLDivElement, MouseEvent>;
+      startPos.current = position.map((item) => {
+        return {
+          dx: eTemp.clientX - item.dx,
+          dy: eTemp.clientY - item.dy
+        };
+      });
+      startX.current = eTemp.clientX;
+    }
+  };
+  const handleMove = (
+    e: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    if (!flagRef.current) return;
+    let _x = 0;
+    let _y = 0;
+    if (e.type === 'touchmove') {
+      const eTemp = e as React.TouchEvent<HTMLDivElement>;
+      _x = eTemp?.touches?.[0].clientX;
+      _y = eTemp?.touches?.[0].clientY;
+    } else {
+      const eTemp = e as React.MouseEvent<HTMLDivElement, MouseEvent>;
+      _x = eTemp.clientX;
+      _y = eTemp.clientY;
+    }
+    const dxTemp = position.map((item, idx) => {
+      return {
+        dx: _x - startPos.current[idx].dx,
+        dy: _y - startPos.current[idx].dy
+      };
+    });
+    const move = Math.round((_x - startX.current) / rectRef.current.width / 0.25);
+    //  根据当前值的位置判断移动距离是否超出范围
+    const idx = _mode.findIndex((item) => item.value === value);
+    if ((move > idx && move > 0) || (_mode.length - 1 - idx + move < 0 && move < 0)) {
+      setMovementDistance(() => (move > 0 ? idx : _mode.length - 1 - idx));
+      flagRef.current = false;
+      return;
+    }
+    setMovementDistance(move);
+    setPosition(() =>
+      dxTemp.map((item) => ({
+        dx: item.dx,
+        dy: getY(item.dx)
+      }))
+    );
+  };
+  const handleMoveEnd = () => {
+    flagRef.current = false;
+    onChange(_mode[curVal].value);
+    setMovementDistance(0);
+    renderPie();
+  };
   return (
     <div className="flex flex-col items-center gap-3">
       <div className="text-2xl">
-        movementDistance:{movementDistance < 0 ? '向左' : '向右'}
+        movementDistance:{movementDistance < 0 ? '向右移动' : '向左移动'}
         {Math.abs(movementDistance)}
       </div>
       <div className="text-2xl text-center">
@@ -61,51 +128,12 @@ function PieSlider({ value = 0, onChange = (val: number) => {} }) {
       </div>
       <div
         className="pie-slider relative h-36 w-screen border-2"
-        onTouchStart={(e) => {
-          flagRef.current = true;
-          startPos.current = position.map((item) => {
-            return {
-              dx: e.touches[0].clientX - item.dx,
-              dy: e.touches[0].clientY - item.dy
-            };
-          });
-          startX.current = e.touches[0].clientX;
-        }}
-        onTouchMove={(e) => {
-          console.log('e.touches[0].clientX:', e.touches[0].clientX);
-
-          if (!flagRef.current) return;
-          const dxTemp = position.map((item, idx) => {
-            return {
-              dx: e.touches[0].clientX - startPos.current[idx].dx,
-              dy: e.touches[0].clientY - startPos.current[idx].dy
-            };
-          });
-          const move = Math.round(
-            (e.touches[0].clientX - startX.current) / rectRef.current.width / 0.25
-          );
-          //  根据当前值的位置判断移动距离是否超出范围
-          const idx = _mode.findIndex((item) => item.value === value);
-          if ((move > idx && move > 0) || (_mode.length - 1 - idx + move < 0 && move < 0)) {
-            setMovementDistance(() => (move > 0 ? idx : _mode.length - 1 - idx));
-            flagRef.current = false;
-            return;
-          }
-          setMovementDistance(move);
-          setPosition(() =>
-            dxTemp.map((item) => ({
-              dx: item.dx,
-              dy: getY(item.dx)
-            }))
-          );
-        }}
-        onTouchEnd={(e) => {
-          console.log('onTouchEnd:');
-          flagRef.current = false;
-          onChange(_mode[curVal].value);
-          setMovementDistance(0);
-          renderPie();
-        }}
+        onTouchStart={handleMoveStart}
+        onTouchMove={handleMove}
+        onTouchEnd={handleMoveEnd}
+        onMouseDown={handleMoveStart}
+        onMouseMove={handleMove}
+        onMouseUp={handleMoveEnd}
       >
         {position.map((item, index) => (
           <div
