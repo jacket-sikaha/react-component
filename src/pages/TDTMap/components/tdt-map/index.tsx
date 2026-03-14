@@ -1,9 +1,9 @@
+import type { LineData, Statistics, Suggests } from '@/types/LocalSearch';
 import { CloseOutlined } from '@mui/icons-material';
 import { InfiniteLoading } from '@nutui/nutui-react';
 import { Button, Form } from 'antd';
 import { useEffect } from 'react';
 import ListItem from '../list-item';
-import { LineData, Statistics, Suggests } from './@type/LocalSearch';
 import CustomPositioningControl from './component/CustomPositioningControl';
 import WithPromptInput from './component/Select';
 import { useTDTMap } from './hook';

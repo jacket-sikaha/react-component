@@ -1,7 +1,7 @@
 import { Cell, DatePicker, InfiniteLoading, Tabs } from '@nutui/nutui-react';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { CSSProperties, useEffect, useState } from 'react';
+import { type CSSProperties, useEffect, useState } from 'react';
 import { ListItem } from '../filter-list-item';
 import './index.css';
 dayjs.extend(customParseFormat);
@@ -86,7 +86,7 @@ function FilterList(props: FilterListProps) {
       <Tabs
         value={status}
         tabStyle={{ position: 'sticky', top: '0px', zIndex: 11 }}
-        onChange={(val: number) => {
+        onChange={(val ) => {
           setTab2value(val as number);
           const status = +val;
           handleFilterChange({ status, beginDate, endDate });

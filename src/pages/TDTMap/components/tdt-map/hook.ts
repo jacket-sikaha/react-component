@@ -1,8 +1,4 @@
-import { message } from 'antd';
-import { useForm } from 'antd/es/form/Form';
-import { useRef, useState } from 'react';
-import { LocationProps } from '.';
-import {
+import type {
   Area,
   LineData,
   LocalSearch,
@@ -10,16 +6,18 @@ import {
   Pois,
   Statistics,
   Suggests
-} from './@type/LocalSearch';
-import {
-  // Control,
+} from '@/types/LocalSearch';
+import type {
   GeocoderResult,
   GeolocationResult,
   LngLat,
   Marker,
   TDTGeolocation,
   TDTMap
-} from './@type/TDT';
+} from '@/types/TDT';
+import { Form, message } from 'antd';
+import { useRef, useState } from 'react';
+import type { LocationProps } from '.';
 
 let map: TDTMap;
 let localSearch: LocalSearch;
@@ -33,7 +31,7 @@ export const useTDTMap = (value?: LocationProps) => {
   const [loading, setLoading] = useState(false);
   const [typeList, setTypeList] = useState(0);
   const otherList = useRef<unknown[]>([]);
-  const [form] = useForm<{ keyword: LocationProps }>();
+  const [form] = Form.useForm<{ keyword: LocationProps }>();
   const { longitude, latitude, address } = value ?? {};
 
   function onLoad() {
@@ -310,11 +308,11 @@ const statistics = (obj: false | Statistics, map?: TDTMap) => {
 //解析行政区划边界
 const area = (obj: false | Area, map?: TDTMap) => {
   if (obj && map) {
-    const pointsArr = [];
+    const pointsArr: LngLat[] = [];
     const { points, lonlat } = obj;
     if (points) {
       for (const { region } of points) {
-        const regionLngLats = [];
+        const regionLngLats: LngLat[] = [];
         const regionArr = region.split(',');
         for (const regionCoords of regionArr) {
           const [lng, lat] = regionCoords.split(' ');
@@ -362,7 +360,7 @@ const lineData = (obj: false | LineData[], map?: TDTMap) => {
 const parseList = (obj: Pois[]) => {
   //坐标数组，设置最佳比例尺时会用到
   const zoomArr: LngLat[] = [];
-  const list = [];
+  const list: any[] = [];
   for (let i = 0; i < obj.length; i++) {
     //名称
     const name = obj[i].name;

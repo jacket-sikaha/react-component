@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { type AxiosRequestConfig } from 'axios';
 
 const AXIOS_INSTANCE = axios.create({
   //   baseURL: "https://127.0.0.1/api/",

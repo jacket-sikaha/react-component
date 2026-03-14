@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 export const useEchartResize = (target?: Element, action?: any) => {
-  const resizeObserver = useRef<ResizeObserver>();
+  const resizeObserver = useRef<ResizeObserver>(null);
   useEffect(() => {
     resizeObserver.current = new ResizeObserver(() => {
       action();

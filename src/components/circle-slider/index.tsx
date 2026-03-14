@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-function CircleSlider({ value = 50, min = 30, max = 60, onChange = (v) => {} }) {
+function CircleSlider({ value = 50, min = 30, max = 60, onChange = (v: number) => {} }) {
   const [position, setPosition] = useState({
     dx: 0,
     dy: 0

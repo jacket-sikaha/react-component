@@ -1,7 +1,7 @@
 import { Suspense, lazy, useState } from 'react';
 import styles from './css/style.module.css';
 // css module对文件名和导入方式都有要求，需要这么写 import xxx from "./xxxx.module.css";
-import { JSX } from 'react/jsx-runtime';
+import type { JSX } from 'react/jsx-runtime';
 import img1 from './img/team-1.jpg';
 import img2 from './img/team-2.jpg';
 import img3 from './img/team-3.jpg';

@@ -1,4 +1,4 @@
-import { EChartsOption } from 'echarts';
+import type { EChartsOption } from 'echarts';
 import { LineChart } from 'echarts/charts';
 import {
   DatasetComponent,
@@ -59,7 +59,7 @@ function LineChartGroup({
   data,
   loading
 }: Props) {
-  const chartRef = useRef<echarts.ECharts>();
+  const chartRef = useRef<echarts.ECharts>(null);
   const yAxis = data.map((_, index) => {
     return {
       type: 'value',
@@ -103,7 +103,7 @@ function LineChartGroup({
   const h = (height + 30) * data.length + 100 + height;
   console.log('h:', h);
   const setData = (chartLoading: boolean) => {
-    chartRef.current?.setOption<EChartsOption>(
+    chartRef.current?.setOption (
       {
         title: {
           show: !chartLoading && data.length === 0,
@@ -120,7 +120,7 @@ function LineChartGroup({
         tooltip: {
           trigger: 'axis',
           yAxisIndex: [0, data.length - 1],
-          valueFormatter(value, dataIndex) {
+          valueFormatter(value: number, dataIndex: number) {
             return `${value ?? 0} ${unit ?? ''}`;
           }
         },

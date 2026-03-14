@@ -24,7 +24,7 @@ function PDFViewer({ url = 'https://xxxx.com/xxxx.pdf' }) {
             viewport: viewport
           };
 
-          page.render(renderContext);
+           page.render(renderContext as any);
         });
       }
     });

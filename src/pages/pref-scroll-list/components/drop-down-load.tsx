@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-const InfiniteScroll = ({ fetchData, parentClass = '' }) => {
-  const [items, setItems] = useState([]);
+const InfiniteScroll = ({ fetchData, parentClass = '' }: { fetchData: (page: number) => Promise<any[]>; parentClass?: string }) => {
+  const [items, setItems] = useState < any[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);

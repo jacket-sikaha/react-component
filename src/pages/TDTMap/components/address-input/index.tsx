@@ -2,7 +2,7 @@ import { LocalActivityOutlined } from '@mui/icons-material';
 import { Input } from 'antd';
 import { useState } from 'react';
 import ReactDOM from 'react-dom';
-import TDTMapComp, { LocationProps } from '../tdt-map';
+import TDTMapComp, { type LocationProps } from '../tdt-map';
 
 export type TDTMapInputProps = {
   value?: LocationProps;

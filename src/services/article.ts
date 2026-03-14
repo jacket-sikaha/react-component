@@ -16,7 +16,7 @@ export const getArticle = ({
   endDate,
   status
 }: params): Promise<ArticleDatatype[]> => {
-  return request(
-    `https://jsonplaceholder.typicode.com/posts?s=${status}&o=${offset}&l=${limit}&b=${beginDate}&e=${endDate}`
-  );
+  return request({
+    url: `https://jsonplaceholder.typicode.com/posts?s=${status}&o=${offset}&l=${limit}&b=${beginDate}&e=${endDate}`
+  });
 };

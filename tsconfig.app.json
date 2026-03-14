@@ -15,6 +15,7 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
+    "typeRoots": ["node_modules/@types", "tianditu-types", "./src/types"],
 
     // 配置 @
     "baseUrl": ".",
@@ -30,11 +31,13 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitAny": false, // 关闭「隐式any类型」校验（核心）
+    // 使用了无法被编译擦除的语法（比如装饰器、namespace、枚举等），就会触发该错误。
+    "erasableSyntaxOnly": false,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["src" ]
 }

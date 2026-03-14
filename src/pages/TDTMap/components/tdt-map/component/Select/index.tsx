@@ -1,10 +1,10 @@
 import { Select, Spin } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 
+import type { LocalSearch, LocalSearchResult } from '@/types/LocalSearch';
+import type { TDTMap } from '@/types/TDT';
 import { debounce } from '@mui/material';
-import { LocationProps } from '../..';
-import { LocalSearch, LocalSearchResult } from '../../@type/LocalSearch';
-import { TDTMap } from '../../@type/TDT';
+import type { LocationProps } from '../..';
 
 type SuggestsValueType = {
   key?: number;
@@ -33,7 +33,7 @@ const WithPromptInput: React.FC<withPromptInputProps> = ({
   const [fetching, setFetching] = useState(false);
   const [options, setOptions] = useState<SuggestsValueType[]>([]);
   //   const [value1, setValue1] = useState<string>();
-  const localsearch = useRef<LocalSearch>();
+  const localsearch = useRef<LocalSearch>(undefined);
 
   const localSearchResult = (res: LocalSearchResult) => {
     const result = res.getSuggests();
