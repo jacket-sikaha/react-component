@@ -1,8 +1,9 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv } from 'vite';
-// import vitePluginImp from 'vite-plugin-imp';
+import vitePluginImp from 'vite-plugin-imp';
 // import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 import { visualizer } from 'rollup-plugin-visualizer';
+import viteCompression from 'vite-plugin-compression';
 import svgr from 'vite-plugin-svgr';
 
 // const ORIGIN_SERVER = import.meta.env.VITE_ORIGIN_SERVER;
@@ -18,24 +19,25 @@ export default defineConfig(({ mode }) => {
       // vite 8 版本以上需要使用 tsconfigPaths 插件来解析路径别名
       // tsconfigPaths(),
       svgr(),
-      // vitePluginImp({
-      //   libList: [
-      //     // 按需引入 nutui
-      //     {
-      //       libName: '@nutui/nutui-react',
-      //       style: (name) => {
-      //         return `@nutui/nutui-react/dist/esm/${name}/style/css`;
-      //       },
-      //       replaceOldImport: false,
-      //       camel2DashComponentName: false
-      //     }
-      //   ]
-      // }),
-      // viteCompression({
-      //   algorithm: 'gzip',
-      //   threshold: 10240,
-      //   ext: '.gz'
-      // }),
+      vitePluginImp({
+        libList: [
+          // 按需引入 nutui
+          {
+            libName: '@nutui/nutui-react',
+            style: (name) => {
+              return `@nutui/nutui-react/dist/esm/${name}/style/css`;
+            },
+            replaceOldImport: false,
+            camel2DashComponentName: false
+          }
+        ],
+        exclude: ['antd'] // 排除 antd 组件库, 新版本已经支持按需引入
+      }),
+      viteCompression({
+        algorithm: 'gzip',
+        threshold: 10240,
+        ext: '.gz'
+      }),
       visualizer({
         open: process.env.NODE_ENV === 'production',
         filename: 'bundle-analysis.html'
@@ -55,20 +57,20 @@ export default defineConfig(({ mode }) => {
 
       rolldownOptions: {
         output: {
-          // codeSplitting: {
-          //   groups: [
-          //     {
-          //       name: 'react-vendor',
-          //       test: /node_modules[\\/]react/,
-          //       priority: 20
-          //     },
-          //     {
-          //       name: 'ui-vendor',
-          //       test: /node_modules[\\/]antd/,
-          //       priority: 15
-          //     }
-          //   ]
-          // },
+          codeSplitting: {
+            groups: [
+              {
+                name: 'react-vendor',
+                test: /node_modules[\\/]react/,
+                priority: 20
+              },
+              {
+                name: 'ui-vendor',
+                test: /node_modules[\\/]antd/,
+                priority: 15
+              }
+            ]
+          },
           // manualChunks: {
           //   vendor: ['react', 'react-dom', 'react-router-dom'],
           //   mui: ['@mui/material', '@mui/icons-material'],
