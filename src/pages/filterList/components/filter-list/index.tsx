@@ -86,7 +86,7 @@ function FilterList(props: FilterListProps) {
       <Tabs
         value={status}
         tabStyle={{ position: 'sticky', top: '0px', zIndex: 11 }}
-        onChange={(val ) => {
+        onChange={(val) => {
           setTab2value(val as number);
           const status = +val;
           handleFilterChange({ status, beginDate, endDate });

@@ -23,7 +23,7 @@ export function useListHook() {
       status
     });
     try {
-      const [records, count] = [res ?? [], 9999];
+      const [records, count] = [res.data ?? [], 9999];
       return { records, count };
     } catch (error) {
       Toast.show('获取数据失败' + error);
