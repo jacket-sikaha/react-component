@@ -1,4 +1,3 @@
-import type { EChartsOption } from 'echarts';
 import { LineChart } from 'echarts/charts';
 import {
   DatasetComponent,
@@ -59,7 +58,7 @@ function LineChartGroup({
   data,
   loading
 }: Props) {
-  const chartRef = useRef<echarts.ECharts>(null);
+  const chartRef = useRef<echarts.ECharts>();
   const yAxis = data.map((_, index) => {
     return {
       type: 'value',
@@ -103,7 +102,7 @@ function LineChartGroup({
   const h = (height + 30) * data.length + 100 + height;
   console.log('h:', h);
   const setData = (chartLoading: boolean) => {
-    chartRef.current?.setOption (
+    chartRef.current?.setOption(
       {
         title: {
           show: !chartLoading && data.length === 0,
@@ -180,7 +179,7 @@ function LineChartGroup({
   }, [loading]);
 
   return (
-    <div id={`chart-${id}`} className="flex justify-center mx-auto" style={{ width, height: h }} />
+    <div id={`chart-${id}`} className="mx-auto flex justify-center" style={{ width, height: h }} />
   );
 }
 export default LineChartGroup;
