@@ -24,27 +24,37 @@ concurrency:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
-    environment:
+    environment: 
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4 
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Install pnpm 
+        uses: pnpm/action-setup@v4 # 升级到最新稳定版 
         with:
-          node-version: 18
+            # 启用 pnpm 内置的 store 缓存
+            run_install: false
+            
 
-      - name: Install pnpm
-        run: npm install -g pnpm
+      - name: Set up Node.js 
+        uses: actions/setup-node@v4
+        with:
+            node-version: 22  
+            # 指定 node 版本缓存，避免重复下载 
+            cache: "pnpm"
+            # 明确指定缓存路径，提升缓存命中率
+            cache-dependency-path: |
+              **/pnpm-lock.yaml
+              package.json
 
       - name: Install dependencies with pnpm
         run: pnpm i
 
       - name: Build
-        run: pnpm build2
+        run: pnpm build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -52,8 +62,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: './dist'
+            # Upload entire repository
+            path: './dist'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
