@@ -15,6 +15,7 @@ const ScrollList = lazy(() => import('@/pages/scrollList/index'));
 const TDTMap = lazy(() => import('@/pages/TDTMap/index'));
 const PDF = lazy(() => import('@/pages/pdf-view/index'));
 const PieSlider = lazy(() => import('@/pages/slider/index'));
+const TestAuth = lazy(() => import('@/pages/test-auth/index.tsx'));
 
 export const DefaultRoutes = [
   {
@@ -97,6 +98,15 @@ export const DefaultRoutes = [
         element: (
           <Suspense fallback={<h1>loading</h1>}>
             <PieSlider />
+          </Suspense>
+        )
+      },
+      {
+        path: 'test-auth',
+        name: '测试认证',
+        element: (
+          <Suspense fallback={<h1>loading</h1>}>
+            <TestAuth />
           </Suspense>
         )
       }

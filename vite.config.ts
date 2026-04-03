@@ -94,8 +94,8 @@ export default defineConfig(({ mode }) => {
         // -> http://jsonplaceholder.typicode.com/bar
         '/api': {
           target: env.VITE_ORIGIN_SERVER,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, '')
+          changeOrigin: true
+          // rewrite: (path) => path.replace(/^\/api/, '')
         },
         // 正则表达式写法：
         // http://localhost:5173/fallback/
