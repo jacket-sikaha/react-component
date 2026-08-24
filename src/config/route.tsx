@@ -16,6 +16,7 @@ const TDTMap = lazy(() => import('@/pages/TDTMap/index'));
 const PDF = lazy(() => import('@/pages/pdf-view/index'));
 const PieSlider = lazy(() => import('@/pages/slider/index'));
 const TestAuth = lazy(() => import('@/pages/test-auth/index.tsx'));
+const TestArcSlider = lazy(() => import('@/pages/test-arc-slider/index.tsx'));
 
 export const DefaultRoutes = [
   {
@@ -107,6 +108,15 @@ export const DefaultRoutes = [
         element: (
           <Suspense fallback={<h1>loading</h1>}>
             <TestAuth />
+          </Suspense>
+        )
+      },
+      {
+        path: 'test-arc-slider',
+        name: '测试扇形滑动选择器+圆形滚动条',
+        element: (
+          <Suspense fallback={<h1>loading</h1>}>
+            <TestArcSlider />
           </Suspense>
         )
       }
