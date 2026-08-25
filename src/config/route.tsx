@@ -17,6 +17,7 @@ const PDF = lazy(() => import('@/pages/pdf-view/index'));
 const PieSlider = lazy(() => import('@/pages/slider/index'));
 const TestAuth = lazy(() => import('@/pages/test-auth/index.tsx'));
 const TestArcSlider = lazy(() => import('@/pages/test-arc-slider/index.tsx'));
+const TestColorPicker = lazy(() => import('@/pages/test-color-picker/index.tsx'));
 
 export const DefaultRoutes = [
   {
@@ -117,6 +118,15 @@ export const DefaultRoutes = [
         element: (
           <Suspense fallback={<h1>loading</h1>}>
             <TestArcSlider />
+          </Suspense>
+        )
+      },
+      {
+        path: 'test-color-picker',
+        name: 'RGB 圆盘颜色选择器',
+        element: (
+          <Suspense fallback={<h1>loading</h1>}>
+            <TestColorPicker />
           </Suspense>
         )
       }
