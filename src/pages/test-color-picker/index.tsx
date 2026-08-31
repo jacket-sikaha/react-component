@@ -1,4 +1,5 @@
 import ColorPicker, { type ColorValue } from '@/components/color-picker';
+import MiniappColorPicker from '@/components/color-picker/miniapp';
 import { useState } from 'react';
 
 function TestColorPicker() {
@@ -31,13 +32,26 @@ function TestColorPicker() {
     <div className="min-h-screen w-full bg-slate-50 px-6 py-10 text-slate-800 dark:bg-slate-950 dark:text-slate-100">
       <div className="mx-auto flex max-w-5xl flex-col gap-10 lg:flex-row lg:items-start">
         <section className="rounded-2xl bg-white p-6 shadow-sm dark:bg-slate-900 dark:shadow-black/40">
-          <h2 className="mb-1 text-base font-semibold">默认(HSL 色盘固定 L = 50%)</h2>
+          <h2 className="mb-1 text-base font-semibold">Web 版(PointerEvent)</h2>
           <p className="mb-4 text-xs text-slate-500">
-            鼠标按下拖动白色圆环,即可选择颜色。按 <kbd>Shift</kbd> + <kbd>←</kbd> <kbd>→</kbd>{' '}
-            <kbd>↑</kbd> <kbd>↓</kbd> 微调。
+            鼠标按下拖动白色圆环,即可选择颜色。
           </p>
           <ColorPicker
             defaultColor="#ff5252"
+            onChange={handleChange}
+            onChangeComplete={handleComplete}
+            showInfo={false}
+          />
+
+          <div className="my-6 border-t border-dashed border-slate-300 dark:border-slate-700" />
+
+          <h2 className="mb-1 text-base font-semibold">小程序版(Touch 事件)</h2>
+          <p className="mb-4 text-xs text-slate-500">
+            不依赖 PointerEvent,用 touchstart / touchmove / touchend。请在移动端或 DevTools
+            设备模拟模式下测试。
+          </p>
+          <MiniappColorPicker
+            defaultColor="#00C9A7"
             onChange={handleChange}
             onChangeComplete={handleComplete}
             showInfo={false}
