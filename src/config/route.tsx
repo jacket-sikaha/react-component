@@ -114,7 +114,7 @@ export const DefaultRoutes = [
       },
       {
         path: 'test-arc-slider',
-        name: '测试扇形滑动选择器+圆形滚动条',
+        name: 'ArcSlider 圆弧滑动选择器展示',
         element: (
           <Suspense fallback={<h1>loading</h1>}>
             <TestArcSlider />

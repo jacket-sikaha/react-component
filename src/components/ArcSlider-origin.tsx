@@ -5,6 +5,7 @@ interface ArcSliderProps {
   step?: number;
   title?: string;
   defaultValue?: number;
+  value?: number;
   size?: number;
   onChange?: (value: number) => void;
 }
@@ -27,18 +28,30 @@ export default function ArcSlider({
   step = 1,
   title = '雾量',
   defaultValue = min,
+  value: controlledValue,
   size = 320,
   onChange
 }: ArcSliderProps) {
   const range = Math.max(max - min, 0);
   const tickCount = step > 0 ? Math.floor(range / step) + 1 : 1;
-  const [value, setValue] = useState(() => {
+  const isControlled = controlledValue !== undefined;
+  const [internalValue, setInternalValue] = useState(() => {
     if (range <= 0 || step <= 0) {
       return min;
     }
     const stepped = Math.round((defaultValue - min) / step) * step + min;
     return clamp(stepped, min, max);
   });
+  const value = isControlled ? clamp(controlledValue, min, max) : internalValue;
+  const setValue = useCallback(
+    (next) => {
+      const resolved = typeof next === 'function' ? next(value) : next;
+      if (!isControlled) {
+        setInternalValue(resolved);
+      }
+    },
+    [isControlled, value]
+  );
   const draggingRef = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const valueToAngle = useCallback(
@@ -109,33 +122,7 @@ export default function ArcSlider({
   const handleTouchEnd = () => {
     draggingRef.current = false;
   };
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    let nextValue: number | null = null;
-    if (event.key === 'ArrowDown' || event.key === 'ArrowLeft') {
-      nextValue = value - step;
-    }
-    if (event.key === 'ArrowUp' || event.key === 'ArrowRight') {
-      nextValue = value + step;
-    }
-    if (event.key === 'Home') {
-      nextValue = min;
-    }
-    if (event.key === 'End') {
-      nextValue = max;
-    }
-    if (nextValue === null) {
-      return;
-    }
-    event.preventDefault();
-    const clamped = clamp(nextValue, min, max);
-    const stepped = step > 0 ? Math.round((clamped - min) / step) * step + min : min;
-    setValue((prev) => {
-      if (prev !== stepped) {
-        onChange?.(stepped);
-      }
-      return stepped;
-    });
-  };
+
   const polarToCartesian = useCallback(
     (angleDeg: number, radius: number) => {
       const radians = (angleDeg * Math.PI) / 180;
@@ -178,13 +165,12 @@ export default function ArcSlider({
       aria-valuemax={max}
       aria-valuenow={value}
       aria-valuetext={`${value} / ${max}`}
-      className="relative select-none touch-none outline-none"
+      className="relative touch-none select-none outline-none"
       style={{ width: size, height: size }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       onTouchCancel={handleTouchEnd}
-      onKeyDown={handleKeyDown}
     >
       {/* 浅色圆盘 */}
       <div
@@ -232,9 +218,7 @@ export default function ArcSlider({
         }}
       />
       {/* 中间内容：只显示标题，不显示档位数字 */}
-      <div
-        className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center"
-      >
+      <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
         <div className="text-xl text-black">{value}</div>
         <span className="mt-2 text-sm font-medium text-slate-500">{title}</span>
       </div>
